@@ -5,6 +5,20 @@ class ElementoMapa:
     def entrar(self):           # Hook común que cada subclase redefine
         pass
 
+class Decorator(ElementoMapa):
+    def __init__(self, em):
+        super().__init__()
+        self._em = em
+
+class Bomba(Decorator):
+    def __init__(self, em):
+        super().__init__(em)
+        self._em = em
+        self.activa = False
+    
+    def esBomba(self):
+        return True
+        
 
 class Pared(ElementoMapa):
     def entrar(self):
@@ -17,11 +31,7 @@ class ParedBomba(Pared):
         self.activa = False  
 
     def entrar(self):
-        if not self.activa:
-            self.activa = True
-            print("💣 ¡Pared‑bomba activada!")
-        else:
-            print("💥 ¡BOOM! (ya estaba armada)")
+        print("💣 Te has topado con una pared bomba.")
 
 
 
@@ -75,7 +85,8 @@ class Juego:
     def crear_laberinto_2_hab_FM(self, creator):
         """
         Construye un laberinto de 2 habitaciones aprovechando el Creator
-        que recibimos por parámetro.
+        que recibimos por parámetro. solo hay que especificar la cardinalidad de las puertas,
+        ya que el resto de las paredes se crean en el Creator.
         """
         laberinto   = creator.crear_laberinto()
 
@@ -83,16 +94,30 @@ class Juego:
         h2          = creator.crear_habitacion(2)
         puerta      = creator.crear_puerta(h1, h2)
 
-        # montamos los lados (todos idénticos excepto la puerta compartida)
-        h1.norte = creator.crear_pared()
         h1.sur   = puerta
-        h1.este  = creator.crear_pared()
-        h1.oeste = creator.crear_pared()
-
         h2.norte = puerta
-        h2.sur   = creator.crear_pared()
-        h2.este  = creator.crear_pared()
-        h2.oeste = creator.crear_pared()
+
+        laberinto.agregar_habitacion(h1)
+        laberinto.agregar_habitacion(h2)
+        return laberinto
+
+    def crear_laberinto_2_hab_bomba_FM(self, creator):
+        laberinto   = creator.crear_laberinto()
+
+        h1          = creator.crear_habitacion(1)
+        h2          = creator.crear_habitacion(2)
+        puerta      = creator.crear_puerta(h1, h2)
+
+        h1.sur = puerta
+        h2.norte = puerta
+
+        pared1      = creator.crear_pared()
+        bomb1       = creator.crear_bomba(pared1)
+        h1.este = bomb1
+
+        pared2      = creator.crear_pared()
+        bomb2       = creator.crear_bomba(pared2)
+        h2.oeste = bomb2
 
         laberinto.agregar_habitacion(h1)
         laberinto.agregar_habitacion(h2)

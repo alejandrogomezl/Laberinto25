@@ -24,3 +24,16 @@ if __name__ == "__main__":
     print("   ¿Pared sur   de hab‑2 activa? →", hab2.sur.activa)
     hab1.norte.entrar()
     print("   ¿Pared norte de hab‑1 activa? →", hab1.norte.activa)
+
+    # 3) Laberinto 2 habitaciones con bombas
+    print("\n💣 Laberinto habitaciones con bombas")
+    juegoBomba = Juego()
+
+    juegoBomba.laberinto = juego.crear_laberinto_2_hab_bomba_FM(Creator())
+
+    hab1 = juegoBomba.laberinto.obtener_habitacion(1)
+    hab2 = juegoBomba.laberinto.obtener_habitacion(2)
+
+    print("\nLaberinto de 2 habitaciones con bombas:")
+    print(f"Habitación 1 tiene bomba al este: {hasattr(hab1, 'este') and hasattr(hab1.este, 'esBomba') and hab1.este.esBomba()}")
+    print(f"Habitación 2 tiene bomba al oeste: {hasattr(hab2, 'oeste') and hasattr(hab2.oeste, 'esBomba') and hab2.oeste.esBomba()}")
