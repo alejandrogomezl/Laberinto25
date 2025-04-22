@@ -37,3 +37,15 @@ if __name__ == "__main__":
     print("\nLaberinto de 2 habitaciones con bombas:")
     print(f"Habitación 1 tiene bomba al este: {hasattr(hab1, 'este') and hasattr(hab1.este, 'esBomba') and hab1.este.esBomba()}")
     print(f"Habitación 2 tiene bomba al oeste: {hasattr(hab2, 'oeste') and hasattr(hab2.oeste, 'esBomba') and hab2.oeste.esBomba()}")
+
+    # 4) Laberinto 4 habitaciones con bichos
+    print("\n💣 Laberinto habitaciones con bichos")
+
+    juegoBicho = Juego()
+
+    juegoBicho.laberinto = juego.crear_laberinto_4_hab_bicho_FM(Creator())
+    for hab in juegoBicho.laberinto.habitaciones:
+        print(f"Habitación {hab.num} tiene bicho: {hasattr(hab, 'bicho')}")
+        if hasattr(hab, 'bicho'):
+            bicho = hab.bicho
+            print(f"  Vidas: {bicho.vidas}, Poder: {bicho.poder}, Modo: {bicho.modo.__class__.__name__}")

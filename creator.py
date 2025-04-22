@@ -1,4 +1,4 @@
-from juego import Habitacion, Laberinto, Pared, Puerta, ParedBomba, Bomba
+from juego import Habitacion, Laberinto, Pared, Puerta, ParedBomba, Bomba, Bicho, Agresivo, Perezoso
 
 # ──────────────────────────────────────────────────────────
 #  Creator base  (declara los factory methods)
@@ -25,6 +25,15 @@ class Creator:
     
     def crear_bomba(self, em):
         return Bomba(em)
+    
+    def crear_bicho(self, vidas, poder, posicion, modo):
+        return Bicho(vidas, poder, posicion, modo)
+
+    def crear_modo_agresivo(self):
+        return Agresivo()
+
+    def crear_modo_perezoso(self):
+        return Perezoso()
 
 
 # ──────────────────────────────────────────────────────────

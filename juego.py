@@ -19,6 +19,32 @@ class Bomba(Decorator):
     def esBomba(self):
         return True
         
+class Modo:
+    def __init__(self):
+        pass
+
+class Agresivo(Modo):
+    def __init__(self):
+        super().__init__()
+
+class Perezoso(Modo):
+    def __init__(self):
+        super().__init__()
+class Bicho:
+    def __init__(self, vidas, poder, posicion, modo):
+        self.vidas = vidas
+        self.poder = poder
+        self.posicion = posicion
+        self.modo = modo
+    
+    def iniAgresivo(self):
+        self.modo = Agresivo()
+        self.poder = 10
+        self.vidas = 3
+    
+    def iniPerezoso(self):
+        self.poder = 5
+        self.vidas = 1
 
 class Pared(ElementoMapa):
     def entrar(self):
@@ -65,13 +91,15 @@ class Puerta(ElementoMapa):
 class Laberinto:
     """Contenedor de habitaciones"""
     def __init__(self):
-        self._habitaciones = {}
+        self.habitaciones = []
 
     def agregar_habitacion(self, hab: Habitacion):
-        self._habitaciones[hab.num] = hab
+        self.habitaciones.append(hab)
 
     def obtener_habitacion(self, num: int) -> Habitacion:
-        return self._habitaciones[num]
+        return self.habitaciones[num - 1]
+    
+
 
 
 # ──────────────────────────────────────────────────────────
@@ -80,6 +108,10 @@ class Laberinto:
 class Juego:
     def __init__(self):
         self.laberinto = None
+        self.bichos = []
+
+    def agregar_bicho(self, bicho):
+        self.bichos.append(bicho)
 
     # ←­­ Factory Method EN ACCIÓN
     def crear_laberinto_2_hab_FM(self, creator):
@@ -121,4 +153,47 @@ class Juego:
 
         laberinto.agregar_habitacion(h1)
         laberinto.agregar_habitacion(h2)
+        return laberinto
+    
+    def crear_laberinto_4_hab_bicho_FM(self, creator):
+        laberinto  = creator.crear_laberinto()
+
+        h1         = creator.crear_habitacion(1)
+        h2         = creator.crear_habitacion(2)
+        h3         = creator.crear_habitacion(3)
+        h4         = creator.crear_habitacion(4)
+
+        puerta12   = creator.crear_puerta(h1, h2)
+        puerta23   = creator.crear_puerta(h2, h3)
+        puerta34   = creator.crear_puerta(h3, h4)
+        puerta41   = creator.crear_puerta(h4, h1)
+
+        h1.sur     = puerta12
+        h2.norte   = puerta12
+        h2.sur     = puerta23
+        h3.norte   = puerta23
+        h3.sur     = puerta34
+        h4.norte   = puerta34
+        h4.sur     = puerta41
+        h1.oeste   = puerta41
+
+        bicho1 = creator.crear_bicho(3, 10, h1, creator.crear_modo_agresivo())
+        self.agregar_bicho(bicho1)
+        bicho2 = creator.crear_bicho(1, 5, h2, creator.crear_modo_perezoso())
+        self.agregar_bicho(bicho2)
+        bicho3 = creator.crear_bicho(2, 7, h3, creator.crear_modo_agresivo())
+        self.agregar_bicho(bicho3)
+        bicho4 = creator.crear_bicho(4, 8, h4, creator.crear_modo_perezoso())
+        self.agregar_bicho(bicho4)
+
+        h1.bicho = bicho1
+        h2.bicho = bicho2
+        h3.bicho = bicho3
+        h4.bicho = bicho4
+
+        laberinto.agregar_habitacion(h1)
+        laberinto.agregar_habitacion(h2)
+        laberinto.agregar_habitacion(h3)
+        laberinto.agregar_habitacion(h4)
+
         return laberinto
