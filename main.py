@@ -1,51 +1,55 @@
 from creator import Creator, CreatorB
-from juego   import Juego
+from juego import Juego
+from este import Este
+from oeste import Oeste
+import time
 
-if __name__ == "__main__":
-    juego = Juego()
+#ejemplo de uso
+fm = Creator()
+juego = Juego()
+juego.laberinto = juego.crearLaberinto2HabFM(fm)
+hab1=juego.obtenerHabitacion(1)
+hab2=juego.obtenerHabitacion(2)
+print(hab1.num)
+print(hab2.num)
 
-    # 1) Laberinto normal
-    print("🔧 Laberinto normal")
-    juego.laberinto = juego.crear_laberinto_2_hab_FM(Creator())
-    print("   Habitación 1 núm →", juego.laberinto.obtener_habitacion(1).num)
-    print("   Habitación 2 núm →", juego.laberinto.obtener_habitacion(2).num)
-    juego.laberinto.obtener_habitacion(1).norte.entrar()
-    juego.laberinto.obtener_habitacion(1).sur.entrar()
-    juego.laberinto.obtener_habitacion(1).este.entrar()
-    juego.laberinto.obtener_habitacion(1).oeste.entrar()
-    
+#laberinto con paredes bomba
+fmb = CreatorB()
+juego.laberinto = juego.crearLaberinto2HabBomba(fmb)
+hab1=juego.obtenerHabitacion(1)
+hab2=juego.obtenerHabitacion(2)
+bm1=hab1.obtenerElementoEnOrientacion(Este())
+bm2=hab2.obtenerElementoEnOrientacion(Oeste())
+print(bm1.activa)
+print(bm2.activa)
 
-    # 2) Laberinto con paredes bomba
-    print("\n💣 Laberinto con paredes bomba")
-    juego.laberinto = juego.crear_laberinto_2_hab_FM(CreatorB())
-    hab1 = juego.laberinto.obtener_habitacion(1)
-    hab2 = juego.laberinto.obtener_habitacion(2)
-    print("   ¿Pared norte de hab‑1 activa? →", hab1.norte.activa)
-    print("   ¿Pared sur   de hab‑2 activa? →", hab2.sur.activa)
-    hab1.norte.entrar()
-    print("   ¿Pared norte de hab‑1 activa? →", hab1.norte.activa)
+# Crear laberinto de 4 habitaciones
+fm = Creator()
+juego.laberinto = juego.crearLaberinto4Hab(fm)
 
-    # 3) Laberinto 2 habitaciones con bombas
-    print("\n💣 Laberinto habitaciones con bombas")
-    juegoBomba = Juego()
+# Mostrar el número de cada habitación
+for habitacion in juego.laberinto.hijos:
+    print(f"Habitación {habitacion.num}")
 
-    juegoBomba.laberinto = juego.crear_laberinto_2_hab_bomba_FM(Creator())
+#mostrar los bichos del juego
+for bicho in juego.bichos:
+    print(bicho)
+    print(f"Bicho con {bicho.vidas} vidas y {bicho.poder} de poder")
+    print(f"Posición {bicho.posicion.num}")
 
-    hab1 = juegoBomba.laberinto.obtener_habitacion(1)
-    hab2 = juegoBomba.laberinto.obtener_habitacion(2)
 
-    print("\nLaberinto de 2 habitaciones con bombas:")
-    print(f"Habitación 1 tiene bomba al este: {hasattr(hab1, 'este') and hasattr(hab1.este, 'esBomba') and hab1.este.esBomba()}")
-    print(f"Habitación 2 tiene bomba al oeste: {hasattr(hab2, 'oeste') and hasattr(hab2.oeste, 'esBomba') and hab2.oeste.esBomba()}")
+# Ejemplo de uso de recorrer con print
+print("\nRecorriendo el laberinto e imprimiendo:")
+juego.laberinto.recorrer(print)
 
-    # 4) Laberinto 4 habitaciones con bichos
-    print("\n💣 Laberinto habitaciones con bichos")
+#def abrirPuertas(obj):
+#    if obj.esPuerta():
+#        obj.abrir()
+juego.abrir_puertas()
 
-    juegoBicho = Juego()
+juego.cerrar_puertas()
 
-    juegoBicho.laberinto = juego.crear_laberinto_4_hab_bicho_FM(Creator())
-    for hab in juegoBicho.laberinto.habitaciones:
-        print(f"Habitación {hab.num} tiene bicho: {hasattr(hab, 'bicho')}")
-        if hasattr(hab, 'bicho'):
-            bicho = hab.bicho
-            print(f"  Vidas: {bicho.vidas}, Poder: {bicho.poder}, Modo: {bicho.modo.__class__.__name__}")
+bicho=juego.bichos[0]
+juego.lanzarBicho(bicho)
+time.sleep(3)
+bicho.vidas=0
