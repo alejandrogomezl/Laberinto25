@@ -15,6 +15,12 @@ from cuadrado import Cuadrado
 from juego import Juego
 from tunel import Tunel
 
+# Modificaciones:
+from caramelo import Caramelo
+from caja_fuerte import CajaFuerte
+from bicho_curioso import BichoCurioso
+from explorador import Explorador
+from forma_circular import FormaCircular
 class LaberintoBuilder:
     def __init__(self):
         self.laberinto = None
@@ -32,10 +38,6 @@ class LaberintoBuilder:
         hab=Habitacion(num)	
         hab.forma=self.fabricarForma()
         hab.forma.num=num
-        # hab.agregarOrientacion(self.fabricarNorte())
-        # hab.agregarOrientacion(self.fabricarSur())
-        # hab.agregarOrientacion(self.fabricarEste())
-        # hab.agregarOrientacion(self.fabricarOeste())
         for each in hab.forma.orientaciones:
             hab.ponerElementoEnOrientacion(self.fabricarPared(),each)
         self.laberinto.agregarHabitacion(hab)
@@ -60,14 +62,17 @@ class LaberintoBuilder:
                 obj=self.fabricarNorte()
             case 'Sur':
                 obj=self.fabricarSur()
-            case 'Este':
+            case 'Este': 
                 obj=self.fabricarEste()
             case 'Oeste':
                 obj=self.fabricarOeste()
         return obj
      
-    def fabricarForma(self):
-        forma=Cuadrado()
+    def fabricarForma(self, tipo='cuadrado'):
+        if tipo.lower() == 'circular':
+            forma = FormaCircular()
+        else:
+            forma = Cuadrado()
         forma.agregarOrientacion(self.fabricarNorte())
         forma.agregarOrientacion(self.fabricarSur())
         forma.agregarOrientacion(self.fabricarEste())
@@ -100,11 +105,21 @@ class LaberintoBuilder:
         tunel=Tunel(None)
         unCont.agregar_hijo(tunel)
     
-    def fabricarBicho(self,modo,posicion):
-        if modo=='Agresivo':
-            bicho=self.fabricarBichoAgresivo()
-        if modo=='Perezoso':
-            bicho=self.fabricarBichoPerezoso()
-        hab=self.laberinto.obtenerHabitacion(posicion)
+    def fabricarBicho(self, modo, posicion):
+        if modo == 'Agresivo':
+            bicho = self.fabricarBichoAgresivo()
+        elif modo == 'Perezoso':
+            bicho = self.fabricarBichoPerezoso()
+        elif modo == 'Explorador':
+            bicho = BichoCurioso()
+            bicho.modo = Explorador()
+        hab = self.laberinto.obtenerHabitacion(posicion)
         hab.entrar(bicho)
         self.juego.agregar_bicho(bicho)
+
+    def fabricarHojaExtra(self, tipo):
+        if tipo.lower() == 'caramelo':
+            return Caramelo()
+        elif tipo.lower() == 'caja_fuerte':
+            return CajaFuerte()
+        return None

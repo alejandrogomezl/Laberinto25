@@ -21,8 +21,8 @@ class Director:
         self.builder.fabricarJuego()
 
     def iniBuilder(self):
-        if self.dict['forma']=='cuadrado':
-            self.builder=LaberintoBuilder()
+        if self.dict['forma'] in ['cuadrado', 'circular']:
+            self.builder = LaberintoBuilder()
 
     def fabricarLaberinto(self):
         self.builder.fabricarLaberinto()
@@ -44,7 +44,12 @@ class Director:
             self.builder.fabricarTunelEn(padre)
         if 'hijos'in each.keys():
             for cadaUno in each['hijos']:
-                self.fabricarLaberintoRecursivo(cadaUno,con)
+                if cadaUno['tipo'] in ['caramelo', 'caja_fuerte']:
+                    hoja = self.builder.fabricarHojaExtra(cadaUno['tipo'])
+                    if hoja:
+                        con.agregar_hijo(hoja)
+                else:
+                    self.fabricarLaberintoRecursivo(cadaUno, con)
 
     def leerArchivo(self, filename):
         try:
