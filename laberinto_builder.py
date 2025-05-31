@@ -14,6 +14,7 @@ from perezoso import Perezoso
 from cuadrado import Cuadrado
 from juego import Juego
 from tunel import Tunel
+from ente import Personaje
 
 # Modificaciones:
 from caramelo import Caramelo
@@ -123,3 +124,10 @@ class LaberintoBuilder:
         elif tipo.lower() == 'caja_fuerte':
             return CajaFuerte()
         return None
+    
+    def fabricarPersonajePrincipal(self, posicion):
+        personaje = Personaje(vidas=5, poder=10, juego=self.juego, nombre="Alex")
+        habitacion = self.laberinto.obtenerHabitacion(posicion)
+        personaje.posicion = habitacion
+        personaje.vidas = 5
+        self.juego.personaje = personaje

@@ -15,6 +15,7 @@ class Director:
         self.iniBuilder()
         self.fabricarLaberinto()
         self.fabricarJuego()
+        self.builder.fabricarPersonajePrincipal(posicion=1) 
         self.fabricarBichos()
 
     def fabricarJuego(self):
@@ -34,7 +35,7 @@ class Director:
 	
         #recorrer la colección de puertas para fabricarlas
         for each in self.dict['puertas']:
-            self.builder.fabricarPuerta(each[0],each[1],each[2],each[3])    
+            self.builder.fabricarPuerta(each[0],each[1],each[2],each[3]) 
 	
     def fabricarLaberintoRecursivo(self,each,padre):
         print(each)

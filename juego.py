@@ -160,3 +160,11 @@ class Juego:
 
     def terminarJuego(self):
         self.terminarBichos()
+
+    def juego_terminado_victoria(self):
+        return all(not b.estaVivo() for b in self.bichos)
+
+    def juego_terminado_derrota(self):
+        if self.personaje:
+            return not self.personaje.estaVivo()
+        return False

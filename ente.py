@@ -31,6 +31,9 @@ class Personaje(Ente):
 
     def atacar(self):
         self.juego.buscarBicho()
+        
+    def estaVivo(self):
+        return self.vidas > 0
 
     def __str__(self):
-        return self.nombre
+        return f"El personaje {self.nombre}, tiene {self.vidas} vidas"
