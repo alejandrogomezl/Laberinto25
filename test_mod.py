@@ -14,6 +14,15 @@ if __name__ == "__main__":
     for b in juego.bichos:
         print(b)
 
+    print("\n--- PERSONAJE CARGADO ---")
+    if juego.personaje:
+        print(juego.personaje)
+    else:
+        print("No se ha definido un personaje en el juego.")
+
+    print("\n--- TURNO DE ATAQUE REAL ---")
+    juego.ejecutar_turno()
+
     print("\n--- PRUEBA: CONDICIÓN DE VICTORIA ---")
     for b in juego.bichos:
         b.vidas = 0

@@ -9,6 +9,7 @@ class Bicho(Ente):
         self.poder = None
         self.vidas = None
         self.posicion = None
+        self.vidas_quitadas = 0
 
     def actua(self):
         while self.estaVivo():

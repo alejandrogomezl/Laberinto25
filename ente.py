@@ -12,11 +12,24 @@ class Ente:
         pass
 
     def esAtacadoPor(self, atacante):
-        print(f"Ataque: {self}  es atacado")
-        self.vidas -= atacante.poder
+        if not hasattr(atacante, "vidas_quitadas"):
+            atacante.vidas_quitadas = 0
+
+        if atacante.vidas_quitadas >= 3:
+            print(f"{atacante} ya ha quitado el máximo de 3 vidas. No se aplica daño.")
+            return
+
+        daño_restante = 3 - atacante.vidas_quitadas
+        daño_real = min(atacante.poder, daño_restante)
+
+        print(f"Ataque: {self} es atacado por {atacante}")
+        self.vidas -= daño_real
+        atacante.vidas_quitadas += daño_real
+
         print(f"Vidas restantes: {self.vidas}")
+
         if self.vidas <= 0:
-            print(f"El ente ha muerto")
+            print("El ente ha muerto")
             self.estadoEnte.morir(self)
 
 class Personaje(Ente):

@@ -168,3 +168,7 @@ class Juego:
         if self.personaje:
             return not self.personaje.estaVivo()
         return False
+
+    def ejecutar_turno(self):
+        for bicho in self.bichos:
+            bicho.atacar()
