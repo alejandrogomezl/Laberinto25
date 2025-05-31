@@ -7,6 +7,10 @@ class Ente:
         self.posicion = None
         self.juego = None
         self.estadoEnte = Vivo()
+        self.estrategias_objetos = {
+            'caramelo': self.recoger_caramelo,
+            'caja_fuerte': self.recoger_caja_fuerte
+        }
 
     def clonarLaberinto(self,tunel):
         pass
@@ -31,6 +35,26 @@ class Ente:
         if self.vidas <= 0:
             print("El ente ha muerto")
             self.estadoEnte.morir(self)
+            
+    def recoger_objetos(self):
+        habitacion = self.posicion
+        nuevos_hijos = []
+
+        for hijo in habitacion.hijos:
+            estrategia = self.estrategias_objetos.get(hijo.tipo)
+            if estrategia:
+                estrategia(hijo)
+            else:
+                nuevos_hijos.append(hijo)
+
+        habitacion.hijos = nuevos_hijos
+
+    def recoger_caramelo(self, objeto):
+        self.vidas += 1
+        print(f"Has recogido un caramelo. Has ganado una vida extra. Te quedan {self.vidas} vidas.")
+        
+    def recoger_caja_fuerte(self, objeto):
+        print("Has abierto una caja fuerte.")
 
 class Personaje(Ente):
     def __init__(self, vidas, poder, juego, nombre):

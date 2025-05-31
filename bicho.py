@@ -26,6 +26,7 @@ class Bicho(Ente):
 
     def atacar(self):
         self.juego.buscarPersonaje(self)
+        
     def caminar(self):
         self.posicion.caminarAleatorio(self)
 

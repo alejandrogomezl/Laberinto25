@@ -23,6 +23,11 @@ if __name__ == "__main__":
     print("\n--- TURNO DE ATAQUE REAL ---")
     juego.ejecutar_turno()
 
+    if juego.personaje:
+        print("\n--- RECOGER OBJETOS EN LA HABITACIÓN ---")
+        juego.personaje.recoger_objetos()
+        print(f"Estado actual del personaje: {juego.personaje}")
+
     print("\n--- PRUEBA: CONDICIÓN DE VICTORIA ---")
     for b in juego.bichos:
         b.vidas = 0
