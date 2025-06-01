@@ -21,7 +21,7 @@ from caramelo import Caramelo
 from caja_fuerte import CajaFuerte
 from bicho_curioso import BichoCurioso
 from explorador import Explorador
-from forma_circular import FormaCircular
+from forma_octogono import FormaOctogono
 class LaberintoBuilder:
     def __init__(self):
         self.laberinto = None
@@ -70,8 +70,8 @@ class LaberintoBuilder:
         return obj
      
     def fabricarForma(self, tipo='cuadrado'):
-        if tipo.lower() == 'circular':
-            forma = FormaCircular()
+        if tipo.lower() == 'octogono':
+            forma = FormaOctogono()
         else:
             forma = Cuadrado()
         forma.agregarOrientacion(self.fabricarNorte())

@@ -22,7 +22,7 @@ class Director:
         self.builder.fabricarJuego()
 
     def iniBuilder(self):
-        if self.dict['forma'] in ['cuadrado', 'circular']:
+        if self.dict['forma'] in ['cuadrado', 'octogono']:
             self.builder = LaberintoBuilder()
 
     def fabricarLaberinto(self):
