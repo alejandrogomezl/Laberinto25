@@ -24,6 +24,8 @@ class Director:
     def iniBuilder(self):
         if self.dict['forma'] in ['cuadrado', 'octogono']:
             self.builder = LaberintoBuilder()
+        else:
+            raise ValueError(f"Forma de laberinto no soportada: {self.dict['forma']}")
 
     def fabricarLaberinto(self):
         self.builder.fabricarLaberinto()

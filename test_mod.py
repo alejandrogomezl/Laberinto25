@@ -6,10 +6,11 @@ if __name__ == "__main__":
     director.procesar(archivo_json)
 
     juego = director.obtenerJuego()
-    
+
     print("\n--- LABERINTO CARGADO ---")
     print(juego.laberinto)
 
+    #Prueba de la Modificación 3 (BichoCurioso) + Modificación 6 (Modo Explorador)
     print("\n--- BICHOS CARGADOS ---")
     for b in juego.bichos:
         print(b)
@@ -20,14 +21,17 @@ if __name__ == "__main__":
     else:
         print("No se ha definido un personaje en el juego.")
 
+    #Prueba de la Modificación 7: Ataque del Bicho
     print("\n--- TURNO DE ATAQUE REAL ---")
     juego.ejecutar_turno()
 
+    #Prueba de la Modificación 8: Recoger Objetos (caramelo o caja fuerte)
     if juego.personaje:
         print("\n--- RECOGER OBJETOS EN LA HABITACIÓN ---")
         juego.personaje.recoger_objetos()
         print(f"Estado actual del personaje: {juego.personaje}")
 
+    # ✔ Prueba de condición de victoria (todos los bichos eliminados)
     print("\n--- PRUEBA: CONDICIÓN DE VICTORIA ---")
     for b in juego.bichos:
         b.vidas = 0
@@ -37,6 +41,7 @@ if __name__ == "__main__":
     else:
         print("Aún hay bichos vivos.")
 
+    # ✔ Prueba de condición de derrota (personaje sin vidas)
     print("\n--- PRUEBA: CONDICIÓN DE DERROTA ---")
     if juego.personaje:
         juego.personaje.vidas = 0
