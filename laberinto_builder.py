@@ -118,12 +118,12 @@ class LaberintoBuilder:
         hab.entrar(bicho)
         self.juego.agregar_bicho(bicho)
 
-    def fabricarHojaExtra(self, tipo):
-        if tipo.lower() == 'caramelo':
-            return Caramelo()
-        elif tipo.lower() == 'caja_fuerte':
-            return CajaFuerte()
-        return None
+    
+    def fabricarCaramelo(self):
+        return Caramelo()
+    
+    def fabricarCajaFuerte(self):
+        return CajaFuerte()
     
     def fabricarPersonajePrincipal(self, posicion):
         personaje = Personaje(vidas=5, poder=10, juego=self.juego, nombre="Alex")

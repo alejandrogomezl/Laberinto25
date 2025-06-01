@@ -39,20 +39,25 @@ class Director:
         for each in self.dict['puertas']:
             self.builder.fabricarPuerta(each[0],each[1],each[2],each[3]) 
 	
-    def fabricarLaberintoRecursivo(self,each,padre):
+    def fabricarLaberintoRecursivo(self, each, padre):
         print(each)
-        if each['tipo']=='habitacion':
-            con=self.builder.fabricarHabitacion(each['num'])
-        if each['tipo']=='tunel':
+        tipo = each.get('tipo')
+        if tipo == 'habitacion':
+            con = self.builder.fabricarHabitacion(each['num'])
+            if 'hijos' in each:
+                for hijo in each['hijos']:
+                    self.fabricarLaberintoRecursivo(hijo, con)
+        elif tipo == 'tunel':
             self.builder.fabricarTunelEn(padre)
-        if 'hijos'in each.keys():
-            for cadaUno in each['hijos']:
-                if cadaUno['tipo'] in ['caramelo', 'caja_fuerte']:
-                    hoja = self.builder.fabricarHojaExtra(cadaUno['tipo'])
-                    if hoja:
-                        con.agregar_hijo(hoja)
-                else:
-                    self.fabricarLaberintoRecursivo(cadaUno, con)
+
+        elif tipo == 'caramelo':
+            hoja = self.builder.fabricarCaramelo()
+            padre.agregar_hijo(hoja)
+
+        elif tipo == 'caja_fuerte':
+            hoja = self.builder.fabricarCajaFuerte()
+            padre.agregar_hijo(hoja)
+
 
     def leerArchivo(self, filename):
         try:
